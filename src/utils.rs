@@ -26,6 +26,9 @@ impl Default for PlotConfig{
 }
 
 impl PlotConfig {
+    pub fn new_default_config() -> Self{
+        Self { Default::default() }
+    }
     pub fn from_nu_values() -> Self {
         // for now until I figure this out.
         Self { Default::default() }
