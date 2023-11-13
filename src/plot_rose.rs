@@ -1,4 +1,4 @@
-use crate::utils::PlotConfig;
+use crate::utils::{show_plot, PlotConfig};
 use charming::{
     component::Legend,
     element::ItemStyle,
