@@ -1,69 +1,57 @@
-use super::rose_::create_plot;
-use nu_engine::CallExt;
-use nu_protocol::{
-    ast::Call,
-    engine::{Command, EngineState, Stack},
-    Category, Example, PipelineData, ShellError, Signature, SyntaxShape, Type, Value,
+use charming::{
+    component::Legend,
+    element::ItemStyle,
+    series::{Pie, PieRoseType},
+    Chart, HtmlRenderer,
 };
+use nu_engine::CallExt;
+use nu_plugin::{EvaluatedCall, LabeledError, Plugin};
+use nu_protocol::{PluginSignature, Spanned, Value};
+use num_traits::Num;
+use std::iter::zip;
 
-#[derive(Clone)]
-pub struct RosePlot;
-
-impl Command for RosePlot {
-    fn name(&self) -> &str {
-        "plot rose"
-    }
-
-    fn usage(&self) -> &str {
-        "Create and display a rose plot from pipeline data."
-    }
-    fn signature(&self) -> Signature {
-        Signature::build(self.name())
-            .input_output_type(Type::Any, Type::Any)
-            .category(Category::Custom("plotting".into()))
-            .required(
-                "labels",
-                SyntaxShape::String,
-                "category field for the rose plot",
-            )
-            .required("values", SyntaxShape::Any, "value field for the rose plot")
-    }
-    fn examples(&self) -> Vec<Example> {
-        vec![Example {
-            description: "creates a rose plot from Nu data",
-            example: "let a = ls; | plot rose $a.type $a.size",
-            result: None,
-        }]
-    }
-
-    fn run(
-        &self,
-        engine_state: &EngineState,
-        stack: &mut Stack,
-        call: &Call,
-        input: PipelineData,
-    ) -> Result<PipelineData, ShellError> {
-        command(engine_state, stack, call)
-    }
-}
-
-fn command(
-    engine_state: &EngineState,
-    stack: &mut Stack,
-    call: &Call,
-) -> Result<PipelineData, ShellError> {
+pub fn plot_rose(
+    _name: &str,
+    call: &EvaluatedCall,
+    input: &Value,
+    labels: Vec<Value>,
+    values: Vec<Value>,
+    config: &PlotConfig,
+) -> Result<Value, LabeledError> {
+    // need to change this!
     let labels: Vec<Value> = call.req(engine_state, stack, 0)?;
     let values: Vec<Value> = call.req(engine_state, stack, 1)?;
+    // need to change this!
 
     let label_values: Vec<String> = labels.iter().map(|x| x.as_string().unwrap()).collect();
     let values_values: Vec<f64> = values.iter().map(|x| x.as_float().unwrap()).collect();
 
-    create_plot(label_values, values_values);
+    let html = create_plot(label_values, values_values)?;
+}
 
-    Ok(PipelineData::Value(
-        Value::Nothing {
-            internal_span: call.head,
-        },
-        None,
-    ))
+// make it generic to accept any numeric type.
+fn create_plot<T: Num>(
+    labels: Vec<String>,
+    values: Vec<T>,
+    config: Option<&PlotConfig>,
+) -> Result<Value, LabeledError> {
+    let data = zip(values, labels).collect();
+    let chart = Chart::new().legend(Legend::new().top("bottom")).series(
+        Pie::new()
+            .name("Nightingale Chart")
+            .rose_type(PieRoseType::Radius)
+            .radius(vec!["50", "250"])
+            .center(vec!["50%", "50%"])
+            .item_style(ItemStyle::new().border_radius(8))
+            .data(data),
+    );
+
+    let renderer = HtmlRenderer::new("chart", 1000, 800);
+    html_str = renderer.render(&chart).map_err(|e| LabeledError {
+        span: Some(call.head),
+        msg: e.to_string(),
+        label: "problem rendering html".to_string(),
+    })?;
+    show_plot(html_str);
+    Ok(Value::string(html_str, call.head))
 }

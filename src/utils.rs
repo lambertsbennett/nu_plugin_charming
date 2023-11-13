@@ -6,6 +6,9 @@ use rand::{
 use std::process::Command;
 use std::{env, fs::File, io::Write};
 
+#[derive(Default)]
+pub struct PlotConfig;
+
 const DEFAULT_HTML_APP_NOT_FOUND: &str = "Could not find a useable browser to open plot!";
 
 pub fn show_plot(html_str: String) {
