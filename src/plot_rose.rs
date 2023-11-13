@@ -1,3 +1,4 @@
+use crate::utils::PlotConfig;
 use charming::{
     component::Legend,
     element::ItemStyle,
@@ -26,10 +27,9 @@ pub fn plot_rose(
     let label_values: Vec<String> = labels.iter().map(|x| x.as_string().unwrap()).collect();
     let values_values: Vec<f64> = values.iter().map(|x| x.as_float().unwrap()).collect();
 
-    let html = create_plot(label_values, values_values)?;
+    create_plot(label_values, values_values)?
 }
 
-// make it generic to accept any numeric type.
 fn create_plot<T: Num>(
     labels: Vec<String>,
     values: Vec<T>,
