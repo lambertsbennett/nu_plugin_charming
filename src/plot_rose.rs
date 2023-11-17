@@ -17,9 +17,8 @@ pub fn plot_rose(
     input: &Value,
     labels: Vec<Value>,
     values: Vec<Value>,
-    config: Option<PlotConfig>,
 ) -> Result<Value, LabeledError> {
-    let cfg = config.unwrap_or(PlotConfig::new_default_config());
+    // let cfg = config.unwrap_or(PlotConfig::new_default_config());
     // need to change this!
     let labels: Vec<Value> = call.req(engine_state, stack, 0)?;
     let values: Vec<Value> = call.req(engine_state, stack, 1)?;
@@ -28,20 +27,19 @@ pub fn plot_rose(
     let label_values: Vec<String> = labels.iter().map(|x| x.as_string().unwrap()).collect();
     let values_values: Vec<f64> = values.iter().map(|x| x.as_float().unwrap()).collect();
 
-    create_plot(label_values, values_values, cfg)?
+    create_plot(label_values, values_values)?
 }
 
 fn create_plot<T: Num>(
     labels: Vec<String>,
     values: Vec<T>,
-    config: PlotConfig,
 ) -> Result<Value, LabeledError> {
     let data = zip(values, labels).collect();
     let chart = Chart::new()
-        .legend(Legend::new().top(config.legend_loc))
+        .legend(Legend::new().top("bottom"))
         .series(
             Pie::new()
-                .name(config.title)
+                .name("Nu Plot")
                 .rose_type(PieRoseType::Radius)
                 .radius(vec!["50", "250"])
                 .center(vec!["50%", "50%"])
