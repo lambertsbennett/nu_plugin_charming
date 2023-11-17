@@ -20,9 +20,8 @@ impl CharmPlot {
         input: &Value,
         labels: Vec<Value>,
         values: Vec<Value>
-        config: Option<&PlotConfig>,
     ) -> Result<Value, LabeledError> {
-        plot_rose(name, call, input, labels, values, config)
+        plot_rose(name, call, input, labels, values)
     }
     pub fn scatter_plot(
         &self,
@@ -31,9 +30,8 @@ impl CharmPlot {
         input: &Value,
         x: Vec<Value>,
         y: Vec<Value>
-        config: Option<&PlotConfig>,
     )-> Result<Value, LabeledError> {
-        plot_scatter(name, call, input, x, y, config)
+        plot_scatter(name, call, input, x, y)
     }
     pub fn bar_plot(
         &self,
@@ -42,8 +40,7 @@ impl CharmPlot {
         input: &Value,
         labels: Vec<Value>,
         values: Vec<Value>
-        config: Option<&PlotConfig>,
     )-> Result<Value, LabeledError> {
-        plot_bar(name, call, input, labels, values, config)
+        plot_bar(name, call, input, labels, values)
     }
 }
