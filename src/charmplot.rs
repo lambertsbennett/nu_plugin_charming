@@ -11,7 +11,7 @@ impl CharmPlot {
         Default::default()
     }
     pub fn usage() -> &'static str {
-        "Usage: generate charming plots from Nu inputs"
+        "Usage: generate Charming plots from Nu inputs"
     }
     pub fn rose_plot(
         &self,

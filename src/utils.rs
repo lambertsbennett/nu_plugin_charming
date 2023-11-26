@@ -7,34 +7,6 @@ use charming::theme::Theme;
 use std::process::Command;
 use std::{env, fs::File, io::Write};
 
-
-pub struct PlotConfig {
-    title: &'static str,
-    legend_loc: &'static str,
-    theme: Theme,
-
-};
-
-impl Default for PlotConfig{
-    fn default() -> PlotConfig{
-        PlotConfig{
-            title: "Nu Plot",
-            legend_loc: "bottom",
-            theme: Theme::Default,
-        }
-    }
-}
-
-impl PlotConfig {
-    pub fn new_default_config() -> Self{
-        Self { Default::default() }
-    }
-    pub fn from_nu_values() -> Self {
-        // for now until I figure this out.
-        Self { Default::default() }
-    }
-}
-
 const DEFAULT_HTML_APP_NOT_FOUND: &str = "Could not find a useable browser to open plot!";
 
 pub fn show_plot(html_str: String) {

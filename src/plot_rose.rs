@@ -18,7 +18,6 @@ pub fn plot_rose(
     labels: Vec<Value>,
     values: Vec<Value>,
 ) -> Result<Value, LabeledError> {
-    // let cfg = config.unwrap_or(PlotConfig::new_default_config());
     // need to change this!
     let labels: Vec<Value> = call.req(engine_state, stack, 0)?;
     let values: Vec<Value> = call.req(engine_state, stack, 1)?;
