@@ -4,10 +4,10 @@ use crate::plot_scatter::plot_scatter;
 use nu_plugin::{EvaluatedCall, LabeledError, Plugin};
 use nu_protocol::{Category, PluginSignature, SyntaxShape, Type, Value};
 
-pub struct CharmPlot;
+pub struct CharmPlotter;
 
 // need to prune function inputs to what is actually needed.
-impl CharmPlot {
+impl CharmPlotter {
     pub fn new() -> Self {
         Self {}
     }
@@ -46,7 +46,7 @@ impl CharmPlot {
     }
 }
 
-impl Plugin for CharmPlot {
+impl Plugin for CharmPlotter {
     // TODO
 }
 

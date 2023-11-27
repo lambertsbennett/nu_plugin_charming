@@ -1,4 +1,4 @@
-use crate::utils::{show_plot, PlotConfig};
+use crate::utils::show_plot;
 use charming::{
     component::Legend,
     element::ItemStyle,
@@ -29,22 +29,17 @@ pub fn plot_rose(
     create_plot(label_values, values_values)?
 }
 
-fn create_plot<T: Num>(
-    labels: Vec<String>,
-    values: Vec<T>,
-) -> Result<Value, LabeledError> {
+fn create_plot<T: Num>(labels: Vec<String>, values: Vec<T>) -> Result<Value, LabeledError> {
     let data = zip(values, labels).collect();
-    let chart = Chart::new()
-        .legend(Legend::new().top("bottom"))
-        .series(
-            Pie::new()
-                .name("Nu Plot")
-                .rose_type(PieRoseType::Radius)
-                .radius(vec!["50", "250"])
-                .center(vec!["50%", "50%"])
-                .item_style(ItemStyle::new().border_radius(8))
-                .data(data),
-        );
+    let chart = Chart::new().legend(Legend::new().top("bottom")).series(
+        Pie::new()
+            .name("Nu Plot")
+            .rose_type(PieRoseType::Radius)
+            .radius(vec!["50", "250"])
+            .center(vec!["50%", "50%"])
+            .item_style(ItemStyle::new().border_radius(8))
+            .data(data),
+    );
 
     let renderer = HtmlRenderer::new("chart", 1000, 800);
     html_str = renderer.render(&chart).map_err(|e| LabeledError {
