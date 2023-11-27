@@ -4,13 +4,12 @@ use crate::plot_scatter::plot_scatter;
 use nu_plugin::{EvaluatedCall, LabeledError, Plugin};
 use nu_protocol::{Category, PluginSignature, SyntaxShape, Type, Value};
 
-#[derive(Default)]
 pub struct CharmPlot;
 
 // need to prune function inputs to what is actually needed.
 impl CharmPlot {
     pub fn new() -> Self {
-        Default::default()
+        Self {}
     }
     pub fn usage() -> &'static str {
         "Usage: generate Charming plots from Nu inputs"
