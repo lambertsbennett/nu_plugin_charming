@@ -1,57 +1,53 @@
-use crate::plot_bar::plot_bar;
-use crate::plot_rose::plot_rose;
-use crate::plot_scatter::plot_scatter;
 use nu_plugin::{EvaluatedCall, LabeledError, Plugin};
-use nu_protocol::{Category, PluginSignature, SyntaxShape, Type, Value};
+use nu_protocol::{Category, PluginSignature, SyntaxShape, Value};
 
 pub struct CharmPlotter;
 
 // need to prune function inputs to what is actually needed.
-impl CharmPlotter {
-    pub fn new() -> Self {
-        Self {}
-    }
-    pub fn usage() -> &'static str {
-        "Usage: generate Charming plots from Nu inputs"
-    }
-    pub fn rose_plot(
-        &self,
-        name: &str,
-        call: &EvaluatedCall,
-        input: &Value,
-        // labels: Vec<Value>,
-        // values: Vec<Value>
-    ) {
-        debug_print_vals(name, call, input);
-    }
-    pub fn scatter_plot(
-        &self,
-        name: &str,
-        call: &EvaluatedCall,
-        input: &Value,
-        // x: Vec<Value>,
-        // y: Vec<Value>
-    ) {
-        debug_print_vals(name, call, input);
-    }
-    pub fn bar_plot(
-        &self,
-        name: &str,
-        call: &EvaluatedCall,
-        input: &Value,
-        // labels: Vec<Value>,
-        // values: Vec<Value>
-    ) {
-        debug_print_vals(name, call, input);
-    }
-}
+// impl CharmPlotter {
+//     pub fn new() -> Self {
+//         Self {}
+//     }
+//     pub fn rose_plot(&self, name: &str, call: &EvaluatedCall, input: &Value) {
+//         debug_print_vals(name, call, input);
+//     }
+// }
 
 impl Plugin for CharmPlotter {
-    // TODO
+    fn signature(&self) -> Vec<PluginSignature> {
+        vec![
+            // plot rose
+            PluginSignature::build("plot rose")
+                .usage("Create a rose plot with the provided values and labels.")
+                .named("labels", SyntaxShape::String, "The category labels.", None)
+                .named(
+                    "values",
+                    SyntaxShape::Number,
+                    "The values to plot for each category.",
+                    None,
+                )
+                .category(Category::Experimental),
+        ]
+    }
+    fn run(
+        &mut self,
+        name: &str,
+        call: &EvaluatedCall,
+        input: &Value,
+    ) -> Result<Value, LabeledError> {
+        debug_print_vals(name, call, input)
+    }
 }
 
-fn debug_print_vals(name: &str, call: &EvaluatedCall, input: &Value) {
-    println!("name: {0}, call: {1}, input: {2}", name, call, input)
+fn debug_print_vals(
+    name: &str,
+    call: &EvaluatedCall,
+    input: &Value,
+) -> Result<Value, LabeledError> {
+    println!("name: {0}", name);
+    println!("call: {:?}", call);
+    println!("input: {:?}", input);
+    Ok(Value::Nothing {
+        internal_span: call.head,
+    })
 }
-
-// Normally these funcs return Result<Value, LabeledError>

@@ -1,15 +1,15 @@
-use crate::utils::show_plot;
+mod utils;
 use charming::{
     component::Legend,
     element::ItemStyle,
     series::{Pie, PieRoseType},
     Chart, HtmlRenderer,
 };
-use nu_engine::CallExt;
 use nu_plugin::{EvaluatedCall, LabeledError, Plugin};
 use nu_protocol::{PluginSignature, Spanned, Value};
 use num_traits::Num;
 use std::iter::zip;
+use utils::show_plot;
 
 pub fn plot_rose(
     _name: &str,
