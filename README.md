@@ -1,1 +1,1 @@
-This is a plugin to add [Charming](https://github.com/yuankunzhang/charming) plotting capabilities to [Nushell](https://github.com/nushell/nushell).
+This is a plugin to add [Charming](https://github.com/yuankunzhang/charming) plotting capabilities to [Nushell](https://github.com/nushell/nushell). Not currently functional - work paused for the moment.
